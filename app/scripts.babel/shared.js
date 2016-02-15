@@ -29,6 +29,7 @@ const shared = {
                shared.refreshBadge);
   },
 
+  resetCount: () => shared.setCount(0),
 
   getCount(callback) {
     shared.get(COUNT_VARIABLE_NAME, callback, {
@@ -50,7 +51,24 @@ const shared = {
 
   setMode(mode) {
     shared.set(MODE_VARIABLE_NAME, mode);
+  },
+
+  toggleMode() {
+    shared.getMode(mode => {
+      let newMode;
+      switch (mode) {
+      case MODE.AUTOMATIC:
+        newMode = MODE.MANUAL;
+        break;
+      case MODE.MANUAL:
+        newMode = MODE.AUTOMATIC;
+        break;
+      default:
+        newMode = MODE.MANUAL;
+        break;
+      }
+
+      shared.setMode(newMode);
+    })
   }
-
-
 };
