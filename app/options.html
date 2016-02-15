@@ -10,14 +10,20 @@
     <!-- endbuild -->
   </head>
   <body>
-    <h1>'Allo, 'Allo!</h1>
+    <h1>Streakr</h1>
 
+    <h3>Set your count</h3>
+    <label for='count'>New count:</label>
+    <input id='count' name='count' type='number'>
+    <button id='store-count'>Set
     <!-- build:js scripts/options-vendor.js -->
     <!-- bower:js -->
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js scripts/options.js -->
+    <!-- build:js scripts/shared.js -->
+    <script src="scripts/shared.js"></script>
     <script src="scripts/options.js"></script>
     <!-- endbuild -->
   </body>
