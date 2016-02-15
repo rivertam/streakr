@@ -5,7 +5,7 @@ chrome.runtime.onInstalled.addListener(details => {
 });
 
 function click() {
-  shared.getMode(mode => {
+  shared.getMode().then(mode => {
     switch (mode) {
     case MODE.MANUAL:
       shared.incrementCount();

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function setCountDOMLogic() {
   const storeCountButton = document.getElementById('store-count');
   const countInput = document.getElementById('count');
-  shared.getCount(count => countInput.value = count); 
+  shared.getCount().then(count => countInput.value = count); 
   storeCountButton.addEventListener('click', () => {
     const newCount = parseInt(countInput.value, 10);
     shared.setCount(newCount);
@@ -18,7 +18,7 @@ function setCountDOMLogic() {
 
 function automaticModeDOMLogic() {
   const checkbox = document.getElementById('automatic');
-  shared.getMode(mode => {
+  shared.getMode().then(mode => {
     checkbox.checked = mode === MODE.AUTOMATIC;
   });
 

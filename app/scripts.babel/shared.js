@@ -6,55 +6,53 @@ const MODE = {
   MANUAL: 'MANUAL',
 };
 const shared = {
-  refreshBadge() {
-    chrome.storage.sync.get(COUNT_VARIABLE_NAME, shared.setBadge);
-  },
-
-  setBadge({ streakCount = 0 }) {
-    chrome.browserAction.setBadgeText({ text: `${ streakCount }` });
-  },
-
-  set(variableName, value, callback) {
+  set(variableName, value) {
     const obj = { [variableName]: value };
-    chrome.storage.sync.set(obj, callback);
+    return new Promise(res => {
+      chrome.storage.sync.set(obj, () => res(obj));
+    })
   },
 
-  get(variableName, callback, { defaultValue }) {
-    chrome.storage.sync.get(variableName, data => callback(data[variableName] || defaultValue));
+  get(variableName, defaultValue) {
+    return new Promise(res => 
+      chrome.storage.sync.get(variableName, data => res(data[variableName] || defaultValue))
+    )
   },
+
+  refreshBadge() {
+    return shared.get(COUNT_VARIABLE_NAME, 0).then(shared.setBadge);
+  },
+
+  setBadge(count = 0) {
+    chrome.browserAction.setBadgeText({ text: `${ count }` });
+    return Promise.resolve(count);
+  },
+
 
   setCount(streakCount) {
-    shared.set(COUNT_VARIABLE_NAME,
-               streakCount,
-               shared.refreshBadge);
+     return shared.set(COUNT_VARIABLE_NAME, streakCount).then(shared.refreshBadge);
   },
 
   resetCount: () => shared.setCount(0),
 
-  getCount(callback) {
-    shared.get(COUNT_VARIABLE_NAME, callback, {
-      defaultValue: 0
-    });
+  getCount() {
+    return shared.get(COUNT_VARIABLE_NAME, 0);
   },
 
   incrementCount() {
-    shared.getCount(count =>
-      shared.setCount(count + 1)
-    );
+    return shared.getCount().then(count => shared.setCount(count + 1));
   },
 
   getMode(callback) {
-    shared.get(MODE_VARIABLE_NAME, callback, {
-      defaultValue: MODE.MANUAL
-    });
+    return shared.get(MODE_VARIABLE_NAME, MODE.MANUAL);
   },
 
   setMode(mode) {
-    shared.set(MODE_VARIABLE_NAME, mode);
+    return shared.set(MODE_VARIABLE_NAME, mode);
   },
 
   toggleMode() {
-    shared.getMode(mode => {
+    return shared.getMode().then(mode => {
       let newMode;
       switch (mode) {
       case MODE.AUTOMATIC:
@@ -69,6 +67,6 @@ const shared = {
       }
 
       shared.setMode(newMode);
-    })
+    });
   }
 };
