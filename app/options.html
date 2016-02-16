@@ -10,13 +10,6 @@
     <!-- endbuild -->
   </head>
   <body>
-    <h1>Streakr</h1>
-
-    <h3>Set your count</h3>
-    <label for='count'>New count:</label>
-    <input id='count' name='count' type='number'>
-    <button id='store-count'>Set</button>
-
     <h4>Automatic mode</h4>
     <em>Automatic mode updates your count daily from your start date.
         When you're in automatic mode, only click the button if you need
@@ -24,6 +17,19 @@
     <br>
     <input type='checkbox' name='automatic' id='automatic'>
     <label for='automatic'>Automatic Mode</label>
+
+    <div id='manual-options'>
+      <h3>Set your count</h3>
+      <label for='count'>New count:</label>
+      <input id='count' name='count' type='number'>
+      <button id='store-count'>Set</button>
+    </div>
+
+    <div id='automatic-options'>
+      <h3>Set your start date</h3>
+      <label for='start-date'>Start date:</label>
+      <input type='date' id='start-date' name='start-date'>
+    </div>
     <!-- build:js scripts/options-vendor.js -->
     <!-- bower:js -->
     <!-- endbower -->
